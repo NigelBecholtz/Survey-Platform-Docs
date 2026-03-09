@@ -1,6 +1,8 @@
 import type { ZudokuConfig } from "zudoku";
 
 const config: ZudokuConfig = {
+  // Required for GitHub Pages: site is at https://<user>.github.io/Survey-Platform-Docs/
+  basePath: "/Survey-Platform-Docs",
   site: {
     name: "Survey-Docs",
     title: "Survey-Docs",
