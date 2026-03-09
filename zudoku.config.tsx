@@ -81,7 +81,7 @@ const config: ZudokuConfig = {
       label: "API Reference",
     },
   ],
-  redirects: [{ from: "/", to: "/introduction" }],
+  redirects: [{ from: "/", to: "/Survey-Platform-Docs/introduction" }],
   apis: [
     {
       type: "file",
