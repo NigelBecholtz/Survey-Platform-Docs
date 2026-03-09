@@ -1,16 +1,38 @@
 ---
-title: Welcome to Zudoku
+title: Introduction
+sidebar_icon: book-open
 ---
 
-Thanks for choosing to use Zudoku to power your API documentation!
+# Survey Platform
 
-## Edit this page
+A full-stack **survey platform** for creating, publishing, and analyzing multi-language surveys with audience targeting, scoring, advice, and email notifications.
 
-To edit this page, open the `pages/introduction.mdx` file.
+## What it does
 
-## Configuration
+- **Surveys** – Create surveys with multiple question types (single choice, multiple choice, open text, scale), pages, and optional scoring with score-based advice.
+- **Audiences** – Define audiences and optionally restrict surveys to specific audiences (e.g. via secure token links).
+- **Multi-language** – Translate survey content and UI; respondents choose a language at the start.
+- **Public flow** – Share surveys via a public slug (`/public/:slug`) or secure token link (`/s/:token`). Optional contact step (name/email) before or after questions.
+- **Responses** – View, filter, export, and optionally score responses; show advice based on score ranges.
+- **Email** – Per-survey SMTP: admin notifications when a survey is completed, and optional respondent summary email (answers in their chosen language).
+- **Analytics** – Overview, audience comparison, score distribution, and trends.
+- **Translations** – Global UI strings and survey/question/option translations; optional DeepL integration for auto-translation.
 
-You can find the full configuration for your Zudoku site in the `zudoku.config.tsx` file.
+## Tech stack
 
-For further information on how to customize your site, check out the
-[Zudoku documentation](https://zudoku.dev/docs).
+| Layer      | Technology |
+|-----------|------------|
+| Backend   | Laravel (PHP), Sanctum auth, SQLite/MySQL |
+| Frontend  | React, React Router, TanStack Query, Tailwind CSS, Vite |
+| API       | REST, JSON; public and protected (Bearer) routes |
+
+## Documentation structure
+
+- **Getting Started** – Installation and configuration.
+- **Architecture** – High-level overview of the application.
+- **Features** – Deep dives into surveys, audiences, responses, email, translations, and analytics.
+- **API** – Authentication, public endpoints, and protected endpoints (with optional OpenAPI reference).
+
+## Where the app lives
+
+The main application codebase is in a separate repository (e.g. `survey-platform`). This documentation site is generated with [Zudoku](https://zudoku.dev) and lives in `survey-docs`.

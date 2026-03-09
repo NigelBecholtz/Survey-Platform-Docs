@@ -1,0 +1,42 @@
+---
+title: API Overview
+sidebar_icon: globe
+---
+
+# API Overview
+
+The Survey Platform exposes a **REST API** under `/api` (or the base URL you configure). All responses are **JSON**.
+
+## Base URL
+
+- **Development**: e.g. `http://localhost:8000/api` or the value of `VITE_API_URL` used at build time.
+- **Production**: e.g. `https://your-domain.com/api`.
+
+## Authentication
+
+- **Public routes** – No auth. Used for fetching a survey (by slug or token), submitting a response, and fetching public UI strings.
+- **Protected routes** – Require **Bearer token** (Laravel Sanctum). Send header:
+  - `Authorization: Bearer <token>`
+  - Token is returned on `POST /api/login` or `POST /api/register`.
+
+See [Authentication](/api/authentication) for login/register and token usage.
+
+## Route groups
+
+| Group        | Auth   | Purpose |
+|-------------|--------|---------|
+| Auth        | Throttled, no Bearer | Register, login. |
+| Public      | Throttled, no Bearer | Survey by slug/token, submit, UI strings. |
+| Protected   | Bearer required     | Logout, user, surveys, questions, responses, email settings, translations, analytics, audiences, media. |
+
+## Conventions
+
+- **Success**: HTTP 200/201 with JSON body.
+- **Validation errors**: HTTP 422 with `message` and/or `errors` (field-specific).
+- **Unauthenticated**: HTTP 401 on protected routes; frontend may redirect to login.
+- **Not found**: HTTP 404.
+- **Throttling**: Auth and public submit routes are throttled to limit abuse.
+
+## OpenAPI
+
+An optional **OpenAPI (Swagger)** spec can be added to this docs project for interactive API reference. For now, see [Public endpoints](/api/public-endpoints) and [Protected endpoints](/api/protected-endpoints) for a concise list and description of routes.

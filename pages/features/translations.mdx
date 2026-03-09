@@ -1,0 +1,37 @@
+---
+title: Translations
+sidebar_icon: languages
+---
+
+# Translations
+
+Multi-language support for survey content and global UI strings.
+
+## What is translated
+
+- **Survey**: title, description.
+- **Questions**: question text.
+- **Answer options**: option text.
+- **Score ranges**: advice text.
+- **Global UI strings**: labels, buttons, placeholders (e.g. “Next Step”, “Submit”, “Question”, “Required”) used in the public survey and optionally in the dashboard.
+
+Translations are stored as **JSON** (e.g. `{ "en": "...", "nl": "...", "de": "..." }`) in the database. The app uses a `Translatable` trait and helpers (e.g. `getTranslatedText(obj, locale)`) to resolve the right string.
+
+## Supported languages
+
+Defined in the app (e.g. in PublicSurvey and translation UI): English, Dutch, German, French, Spanish, Italian, Portuguese, and others. Respondents choose a language at the start; that choice is used for the rest of the flow and for the respondent summary email.
+
+## Dashboard
+
+- **Translations** – Edit global UI strings per language; save to API (`PUT /translations/ui-strings`).
+- **Survey translations** – Per survey: translate title, questions, options, advice (e.g. in a dedicated translations tab or modal). Optional **auto-translate** (e.g. DeepL) from English to other languages.
+
+## API
+
+- `GET/PUT /translations/ui-strings` – Global UI strings.
+- `POST /translate`, `POST /translate/bulk`, `GET /translate/languages` – Translation service (e.g. DeepL).
+- Survey/question/option/score-range updates include translated fields (JSON).
+
+## Respondent email
+
+The respondent summary email uses the respondent’s chosen **language** to render question and answer text and the email’s UI strings (from Laravel `lang/*.json`).

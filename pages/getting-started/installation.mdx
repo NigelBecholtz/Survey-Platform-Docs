@@ -1,0 +1,72 @@
+---
+title: Installation
+sidebar_icon: download
+---
+
+# Installation
+
+Requirements and steps to run the Survey Platform locally or on a server.
+
+## Requirements
+
+- **PHP** 8.2+ (with extensions: BCMath, Ctype, cURL, DOM, Fileinfo, JSON, Mbstring, OpenSSL, PCRE, PDO, Tokenizer, XML)
+- **Composer**
+- **Node.js** 18+ and **npm** (for frontend build)
+- **Database**: SQLite (default) or MySQL/PostgreSQL
+
+## Steps
+
+### 1. Clone and install PHP dependencies
+
+```bash
+cd survey-platform
+composer install
+```
+
+### 2. Environment and key
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Edit `.env`: set `APP_URL`, database (`DB_*`), and optionally `VITE_API_URL` for the frontend (see [Configuration](/getting-started/configuration)).
+
+### 3. Database
+
+```bash
+php artisan migrate
+# Optional: seed demo data
+# php artisan db:seed
+```
+
+### 4. Frontend build
+
+```bash
+npm install
+npm run build
+```
+
+For development with hot reload:
+
+```bash
+npm run dev
+```
+
+### 5. Run the backend
+
+```bash
+php artisan serve
+```
+
+- Backend: typically `http://localhost:8000`
+- Frontend in production is built into `public/build` and served by Laravel.
+- In dev, point the app to your Vite dev server if you run `npm run dev` (e.g. `VITE_API_URL` or proxy) so API calls go to the Laravel backend.
+
+## Production
+
+- Use a proper web server (e.g. Nginx/Apache) and PHP-FPM.
+- Set `APP_ENV=production`, `APP_DEBUG=false`, and a strong `APP_KEY`.
+- Run `php artisan config:cache`, `php artisan route:cache`, `php artisan view:cache`.
+- Run migrations and `npm run build` as part of your deploy.
+- Configure queue worker if you use queues (e.g. `php artisan queue:work`).

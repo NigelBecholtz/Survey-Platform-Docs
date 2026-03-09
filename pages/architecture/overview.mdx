@@ -1,0 +1,70 @@
+---
+title: Architecture Overview
+sidebar_icon: layout
+---
+
+# Architecture Overview
+
+High-level structure of the Survey Platform.
+
+## Stack
+
+- **Backend**: Laravel (PHP). REST API, Sanctum for auth, Eloquent ORM, migrations, mail, optional queues.
+- **Frontend**: Single-page app (React, React Router, TanStack Query). Tailwind CSS, Vite for build.
+- **Database**: SQLite by default; supports MySQL/PostgreSQL via Laravel config.
+
+## Request flow
+
+1. **Browser** loads the SPA (Laravel serves `index.html` and built JS/CSS, or Vite in dev).
+2. **SPA** calls `/api/*` (REST). Public routes: survey by slug/token, submit, UI strings. Protected routes: Bearer token (Sanctum) for dashboard, CRUD, exports.
+3. **Laravel** routes to API controllers; controllers use models, form requests, and services (e.g. `SurveyNotificationService`).
+4. **Responses** (survey submissions) are stored; optional scoring and advice; admin and optional respondent emails are sent (per-survey SMTP when configured).
+
+## Main backend areas
+
+| Area        | Purpose |
+|------------|---------|
+| `Api/AuthController` | Register, login, logout, user. |
+| `Api/PublicSurveyController` | Public survey by slug/token, submit (creates response, scoring, advice, notifications). |
+| `Api/SurveyController` | CRUD surveys, publish, unpublish, duplicate, stats. |
+| `Api/QuestionController`, `AnswerOptionController` | Questions and options per survey. |
+| `Api/ScoreRangeController` | Score ranges and advice per survey. |
+| `Api/ResponseController` | List, show, export, status, delete responses. |
+| `Api/SurveyEmailSettingController` | Per-survey SMTP and alert recipients. |
+| `Api/TranslationController` | UI strings, translate, bulk translate, auto-translate survey. |
+| `Api/AnalyticsController` | Overview, audience comparison, score distribution, trends. |
+| `Api/AudienceController` | CRUD audiences. |
+| `Services/SurveyNotificationService` | Admin completion email; respondent summary email (with language). |
+| `Mail/*` | Mailables and Blade views for admin and respondent emails. |
+
+## Main frontend areas
+
+| Area        | Purpose |
+|------------|---------|
+| `pages/Public/PublicSurvey.jsx` | Public survey flow: language → optional contact/audience → questions → advice → thank you; submit. |
+| `pages/Surveys/SurveyBuilder.jsx` | Build/edit survey: questions, options, score ranges, design, email settings link. |
+| `pages/Surveys/SurveyList.jsx` | List surveys, publish, unpublish, duplicate. |
+| `pages/Responses/ResponseList.jsx`, `ResponseDetailPage.jsx` | List and detail responses, export. |
+| `pages/Surveys/SurveyEmailSettingsPage.jsx` | Per-survey SMTP, from, recipients, deliverability tips. |
+| `pages/Translations/TranslationsPage.jsx` | Global UI strings. |
+| `pages/Analytics/*` | Charts and overview. |
+| `contexts/AuthContext.jsx` | Login state, token, API client auth. |
+| `services/api.js` | Axios instance, base URL, Bearer token, 401 redirect. |
+| `services/publicApi.js` | Axios for public routes (no auth). |
+
+## Data flow (survey submission)
+
+1. Respondent opens `/public/:slug` or `/s/:token`.
+2. Frontend loads survey (and optional audience from token); respondent picks language, optionally name/email/audience, then answers.
+3. On submit, POST `/api/public/surveys/:slug/submit` (or slug from survey) with `answers`, optional `name`, `email`, `audience_id`, `language`.
+4. Backend validates, creates `Response` and `ResponseAnswer`, computes score and advice, stores them.
+5. Backend sends admin notification (if survey has email settings and recipients).
+6. If respondent gave email, backend sends respondent summary email (answers in chosen language).
+7. Frontend shows thank-you / advice step.
+
+## Security notes
+
+- Public submit and auth endpoints are throttled.
+- Protected routes require `auth:sanctum`; company scoping where applicable.
+- Survey email settings store SMTP password encrypted (Laravel Crypt).
+- Input validation and sanitization (e.g. HTML in advice) on backend and frontend.

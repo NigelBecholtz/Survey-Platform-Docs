@@ -1,0 +1,67 @@
+---
+title: Authentication
+sidebar_icon: key
+---
+
+# Authentication
+
+The API uses **Laravel Sanctum** for token-based authentication on protected routes.
+
+## Register
+
+`POST /api/register`
+
+**Body (JSON):**
+
+- `company_name` (string)
+- `name` (string)
+- `email` (string)
+- `password` (string)
+- `password_confirmation` (string)
+
+**Response (201):** `{ "user": { ... }, "token": "..." }`
+
+## Login
+
+`POST /api/login`
+
+**Body (JSON):**
+
+- `email` (string)
+- `password` (string)
+
+**Response (200):** `{ "user": { ... }, "token": "..." }`
+
+**Errors:** 422 if validation fails (e.g. invalid credentials).
+
+## Using the token
+
+Send the token on every request to **protected** routes:
+
+```
+Authorization: Bearer <your-token>
+```
+
+The frontend stores the token (e.g. in `localStorage`) and attaches it via an Axios interceptor.
+
+## Logout
+
+`POST /api/logout`
+
+**Headers:** `Authorization: Bearer <token>`
+
+Invalidates the current token. Response 200 (no body required).
+
+## Current user
+
+`GET /api/user`
+
+**Headers:** `Authorization: Bearer <token>`
+
+**Response (200):** `{ "user": { "id", "name", "email", "company_id", ... } }`
+
+Used to restore session on app load.
+
+## 401 handling
+
+If the backend returns 401 on a protected route, the frontend typically clears the stored token and redirects to the login page (except on public or login/register routes).

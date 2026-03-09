@@ -1,0 +1,34 @@
+---
+title: Email Notifications
+sidebar_icon: mail
+---
+
+# Email Notifications
+
+Per-survey email: admin alerts when a survey is completed, and optional respondent summary in their language.
+
+## Admin notification (survey completed)
+
+- **When**: Right after a survey is submitted (response created).
+- **Who**: Addresses configured in **Survey → Email notifications → Alert email recipients**.
+- **Content**: Survey title, response ID, completed at, respondent name/email (if collected), total score, link to view response in dashboard.
+- **SMTP**: Uses the **per-survey SMTP** (host, port, encryption, username, password) and **From address / From name** set in that survey’s email settings. No dependency on `.env` MAIL_* for this flow when survey settings are present.
+
+## Respondent summary email
+
+- **When**: After submit, only if the respondent entered an **email** in the survey.
+- **Content**: Survey title, thank-you message, list of questions and their answers in the **language the respondent chose**. Optional total score. Plain-text and HTML parts.
+- **SMTP**: Same per-survey SMTP when configured; otherwise falls back to Laravel default mailer.
+- **Language**: The `language` sent in the submit payload is used to translate question/option text and email UI strings (from `lang/*.json`).
+
+## Per-survey email settings (dashboard)
+
+- **SMTP**: host, port, encryption (TLS/SSL/None), username, password (stored encrypted).
+- **From address** and **From name** (e.g. `noreply@example.com`, “My Survey”).
+- **Alert recipients**: list of emails that receive the “survey completed” notification.
+- **Status**: Active / inactive. When inactive, no admin or respondent emails are sent.
+
+## Deliverability (avoiding spam)
+
+- Emails are sent **multipart** (HTML + plain text) and with **Reply-To** set to the From address when configured.
+- Spam is usually caused by **DNS (SPF/DKIM)** for the From domain not authorizing the SMTP server. The dashboard shows a short “Emails going to spam?” tip; see the project’s `docs/email-deliverability.md` for full guidance (SPF, DKIM, DMARC, transactional providers).

@@ -2,10 +2,12 @@ import type { ZudokuConfig } from "zudoku";
 
 const config: ZudokuConfig = {
   site: {
+    name: "Survey-Docs",
+    title: "Survey-Docs",
     logo: {
       src: { light: "/logo-light.svg", dark: "/logo-dark.svg" },
-      alt: "Zudoku",
-      width: "130px",
+      alt: "Survey-Docs",
+      width: "140px",
     },
   },
   navigation: [
@@ -19,16 +21,40 @@ const config: ZudokuConfig = {
           icon: "sparkles",
           items: [
             "/introduction",
-            {
-              type: "link",
-              icon: "folder-cog",
-              badge: {
-                label: "New",
-                color: "purple",
-              },
-              label: "API Reference",
-              to: "/api",
-            },
+            "/getting-started/installation",
+            "/getting-started/configuration",
+          ],
+        },
+        {
+          type: "category",
+          label: "Architecture",
+          icon: "layout",
+          items: [
+            "/architecture/overview",
+          ],
+        },
+        {
+          type: "category",
+          label: "Features",
+          icon: "layers",
+          items: [
+            "/features/surveys",
+            "/features/audiences",
+            "/features/responses",
+            "/features/email-notifications",
+            "/features/translations",
+            "/features/analytics",
+          ],
+        },
+        {
+          type: "category",
+          label: "API",
+          icon: "code",
+          items: [
+            "/api/overview",
+            "/api/authentication",
+            "/api/public-endpoints",
+            "/api/protected-endpoints",
           ],
         },
         {

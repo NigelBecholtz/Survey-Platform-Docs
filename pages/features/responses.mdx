@@ -1,0 +1,32 @@
+---
+title: Responses
+sidebar_icon: inbox
+---
+
+# Responses
+
+Submitted survey data: answers, score, advice, and metadata.
+
+## Response model
+
+- **Survey**, **company**, optional **audience**.
+- **Name**, **email** (if contact form collected them).
+- **Total score** (if survey has scoring).
+- **Advice type** and **advice text** (from the matching score range).
+- **Status** (e.g. new, read).
+- **Response answers** – one per answered question: `question_id`, `answer_text` (open text), `answer_option_id` (choice), `score` (if applicable).
+
+## Dashboard
+
+- **Response list** – filter by survey, date, audience, search; export CSV/Excel.
+- **Response detail** – all answers with question/option text (translated), score, advice, respondent name/email, timestamps. Optionally update status.
+
+## Export
+
+- Export filtered responses as CSV or Excel (XLSX) with columns for survey, respondent, answers, score, advice, etc.
+
+## After submit
+
+- Response is created and linked to survey (and optional audience).
+- Admin notification email can be sent (if survey email settings are configured).
+- If the respondent gave an email, a **respondent summary email** is sent (answers in their chosen language).

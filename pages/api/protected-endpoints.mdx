@@ -1,0 +1,93 @@
+---
+title: Protected Endpoints
+sidebar_icon: lock
+---
+
+# Protected Endpoints
+
+All require header: `Authorization: Bearer <token>`.
+
+## Auth
+
+- `POST /api/logout`
+- `GET /api/user`
+
+## Surveys
+
+- `GET /api/surveys` – List (company-scoped).
+- `POST /api/surveys` – Create.
+- `GET /api/surveys/{id}` – Show.
+- `PUT /api/surveys/{id}` – Update.
+- `DELETE /api/surveys/{id}` – Delete.
+- `POST /api/surveys/{id}/publish` – Publish (set slug/status).
+- `PATCH /api/surveys/{id}/unpublish` – Unpublish.
+- `GET /api/surveys/{id}/stats` – Stats for survey.
+- `POST /api/surveys/{id}/duplicate` – Duplicate survey (body: e.g. `copy_audiences`).
+
+## Survey email settings
+
+- `GET /api/surveys/{surveyId}/email-settings` – Get SMTP, from, recipients, active.
+- `PUT /api/surveys/{surveyId}/email-settings` – Update (password optional).
+
+## Questions
+
+- `GET /api/surveys/{surveyId}/questions` – List questions.
+- `POST /api/surveys/{surveyId}/questions` – Create.
+- `PUT /api/questions/{id}` – Update.
+- `DELETE /api/questions/{id}` – Delete.
+- `POST /api/questions/{id}/reorder` – Reorder one.
+- `POST /api/surveys/{surveyId}/questions/reorder` – Bulk reorder.
+
+## Answer options
+
+- `POST /api/questions/{questionId}/answer-options` – Create.
+- `PUT /api/answer-options/{id}` – Update.
+- `DELETE /api/answer-options/{id}` – Delete.
+
+## Score ranges (advice)
+
+- `GET /api/surveys/{surveyId}/score-ranges` – List.
+- `POST /api/surveys/{surveyId}/score-ranges` – Create.
+- `PUT /api/score-ranges/{id}` – Update.
+- `DELETE /api/score-ranges/{id}` – Delete.
+
+## Audiences
+
+- `GET /api/audiences` – List.
+- `POST /api/audiences` – Create.
+- `GET /api/audiences/{id}` – Show.
+- `PUT /api/audiences/{id}` – Update.
+- `DELETE /api/audiences/{id}` – Delete.
+
+## Responses
+
+- `GET /api/responses` – List (filter by survey, date, etc.).
+- `GET /api/responses/export` – Export (e.g. `?format=csv|xlsx`).
+- `GET /api/responses/advice-types` – List advice types for filters.
+- `GET /api/responses/{id}` – Show one.
+- `PUT /api/responses/{id}/status` – Update status.
+- `DELETE /api/responses/{id}` – Delete.
+
+## Translations
+
+- `GET /api/translations/ui-strings` – Global UI strings.
+- `PUT /api/translations/ui-strings` – Update (body: `ui_strings`).
+- `POST /api/translate` – Single translate (e.g. DeepL).
+- `POST /api/translate/bulk` – Bulk translate.
+- `GET /api/translate/languages` – Supported languages.
+- `POST /api/surveys/{surveyId}/auto-translate` – Auto-translate survey.
+
+## Analytics
+
+- `GET /api/analytics/overview` – Overview metrics.
+- `GET /api/analytics/audience-comparison` – Compare audiences.
+- `GET /api/analytics/score-distribution` – Score distribution.
+- `GET /api/analytics/trends` – Trends over time.
+
+## Media
+
+- `POST /api/media/upload` – Upload file (e.g. logo). Multipart form.
+
+---
+
+Request/response shapes follow Laravel API resources and validation. For exact schemas, use the **API Reference** (OpenAPI) when available, or inspect the Laravel routes and controllers in the codebase.

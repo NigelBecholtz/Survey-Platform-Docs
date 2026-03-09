@@ -1,0 +1,42 @@
+---
+title: Public Endpoints
+sidebar_icon: unlock
+---
+
+# Public Endpoints
+
+No `Authorization` header required. Throttled to prevent abuse.
+
+## Get survey by slug
+
+`GET /api/public/surveys/{slug}`
+
+Returns the survey (title, description, questions, answer options, score ranges, audiences, theme, contact form settings, default language, etc.) for the given public slug. Used for `/public/:slug` links.
+
+## Get survey by token
+
+`GET /api/public/links/{token}`
+
+Returns the same shape as above for an audience link. May include `preselected_audience_id`. Used for `/s/:token` links.
+
+## Submit survey
+
+`POST /api/public/surveys/{slug}/submit`
+
+**Body (JSON):**
+
+- `answers` (array, required) – Each item: `question_id`, optional `answer_text`, optional `answer_option_id`.
+- `name` (string, optional)
+- `email` (string, optional)
+- `audience_id` (string/number, optional)
+- `language` (string, optional, 2-letter code, e.g. `en`) – Used for respondent summary email.
+
+**Response (201):** e.g. `{ "response_id", "total_score", "advice", ... }`
+
+Creates the response, computes score and advice, sends admin notification (if configured), and optional respondent summary email when `email` is present.
+
+## Get public UI strings
+
+`GET /api/public/ui-strings`
+
+Returns global UI strings (labels, buttons, etc.) for the public survey, keyed by identifier with translations (e.g. `{ "en": "...", "nl": "..." }`). Used to show translated labels in the survey flow.

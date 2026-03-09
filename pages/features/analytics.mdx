@@ -1,0 +1,28 @@
+---
+title: Analytics
+sidebar_icon: bar-chart
+---
+
+# Analytics
+
+Overview and charts for survey usage and responses.
+
+## Endpoints
+
+- **Overview** – Aggregated counts (e.g. surveys, responses, completion rate).
+- **Audience comparison** – Compare metrics or scores across audiences.
+- **Score distribution** – Distribution of total scores (e.g. per survey or audience).
+- **Trends** – Time-based trends (e.g. responses over time).
+
+All are **protected** (Bearer token). The frontend calls these to render dashboards and charts (e.g. Recharts).
+
+## Use cases
+
+- See how many responses each survey has and completion rates.
+- Compare behaviour or scores between audiences (e.g. link A vs link B).
+- Inspect score distribution for scored surveys.
+- Track response volume over time for planning or reporting.
+
+## Data scope
+
+Analytics typically respect **company** (multi-tenant) and optional filters (survey, date range, audience). Exact fields and filters depend on the implemented API and frontend.

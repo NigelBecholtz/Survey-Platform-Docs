@@ -1,0 +1,26 @@
+---
+title: Audiences
+sidebar_icon: users
+---
+
+# Audiences
+
+Audiences segment who can or should take a survey. Used for targeting and analytics.
+
+## What audiences are
+
+- **Name** (and optional description) per audience.
+- **Audience links** – each audience can have one or more **links** (token-based). A link has a unique **token** used in the URL: `/s/:token`.
+- When a respondent opens `/s/:token`, the survey is loaded and the **audience can be pre-selected** (or fixed) for that token.
+
+## Use cases
+
+- Different links for different campaigns or regions; track which audience a response belongs to.
+- Restrict a survey to a specific audience (e.g. only people with the token link).
+- In analytics, compare responses by audience.
+
+## API and dashboard
+
+- **CRUD** audiences and their links (tokens) via API and dashboard.
+- When building a survey, you can choose to show an **audience step** in the public flow (e.g. “Which group are you in?”) or rely on token to pre-select.
+- **Preselected audience** – for token links, the backend can return `preselected_audience_id` so the frontend skips audience selection and uses that audience for the response.

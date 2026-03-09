@@ -1,0 +1,47 @@
+---
+title: Surveys
+sidebar_icon: clipboard-list
+---
+
+# Surveys
+
+Create, configure, and publish surveys with multiple question types, pages, and optional scoring.
+
+## Survey model
+
+- **Title / description** – Translatable (JSON: e.g. `en`, `nl`, `de`).
+- **Goal** – e.g. lead qualification (used for analytics/filtering).
+- **Status** – draft, published, etc.
+- **Public link** – slug for `/public/:slug` (generated on publish or manually).
+- **Default language** – e.g. `en`.
+- **Contact form** – `collect_name`, `collect_email`; `contact_form_position`: before questions or after questions (before advice).
+- **Theme** – optional (primary color, background, font, logo).
+
+## Question types
+
+- **Single choice** – one option.
+- **Multiple choice** – multiple options.
+- **Open text** – free text.
+- **Scale** – numeric scale (min/max, optional labels).
+
+Questions can be **required**, have **order** and **page_number**, and **weight** for scoring. Answer options can have a **score** and optional **audience_impact** (JSON).
+
+## Score ranges and advice
+
+Surveys can have **score ranges** (min/max score) with **advice type** and **advice text** (translatable). After submission, the total score is computed and the matching range’s advice is shown to the respondent and stored on the response.
+
+## Builder (dashboard)
+
+- Add/edit/delete questions and options; reorder; paginate.
+- Configure score ranges and advice.
+- Set contact form position and default language.
+- Link to **Email notifications** (per-survey SMTP and recipients).
+- Design: theme, logo upload.
+- Publish (generates/uses public slug), unpublish, duplicate.
+
+## Public access
+
+- **By slug**: `/public/:slug` – anyone with the link.
+- **By token**: `/s/:token` – audience link; can pre-select audience and optionally restrict to one audience.
+
+Both flows start with a **language** step, then optional contact/audience step(s), then questions, then advice and thank-you.
