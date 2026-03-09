@@ -39,7 +39,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          # Zudoku with basePath outputs to dist/Survey-Platform-Docs/; deploy that as site root
+          path: dist/Survey-Platform-Docs
 
   deploy:
     environment:
